@@ -16,11 +16,21 @@ func session(_ session: WCSession, activationDidCompleteWith activationState: WC
    
 }
 // Function to receive DICTIONARY from the watch
-   func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-       // Output message to terminal
-       
-      
-}
+
+    @IBOutlet weak var timeLabel: WKInterfaceLabel!
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        // Output message to terminal
+        print("WATCH: I received a message: \(message)")
+        
+        // Get the "name" key out of the dictionary
+        // and show it in the label
+        let name = message["name"] as! String
+        print(name)
+
+        timeLabel.setText(name)
+
+    }
+
 
 
     override func awake(withContext context: Any?) {

@@ -22,7 +22,11 @@
                                 <action selector="rightButtonPressed" destination="AgC-eL-Hgc" id="7dB-10-0bg"/>
                             </connections>
                         </button>
+                        <label width="68" height="37" alignment="left" text="Label" id="OCh-F7-mcl"/>
                     </items>
+                    <connections>
+                        <outlet property="timeLabel" destination="OCh-F7-mcl" id="EjT-pE-fmx"/>
+                    </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="129" y="120"/>

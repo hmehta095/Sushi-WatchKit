@@ -22,9 +22,14 @@ class GameScene: SKScene, WCSessionDelegate {
        // Show life and score labels
        let lifeLabel = SKLabelNode(text:"Lives: ")
        let scoreLabel = SKLabelNode(text:"Score: ")
+        let timeLabel = SKLabelNode(text:"Time: ")
        
        var lives = 5
        var score = 0
+    var frameCount :Int = 0
+    var time:Int = 90
+    
+    
        
         func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
             
@@ -159,6 +164,12 @@ class GameScene: SKScene, WCSessionDelegate {
         self.lifeLabel.fontName = "Avenir"
         self.lifeLabel.fontSize = 30
         addChild(lifeLabel)
+        
+        self.timeLabel.position.x = 60
+        self.timeLabel.position.y = size.height - 110
+        self.timeLabel.fontName = "Avenir"
+        self.timeLabel.fontSize = 30
+        addChild(timeLabel)
     }
     
     func buildTower() {
@@ -169,6 +180,32 @@ class GameScene: SKScene, WCSessionDelegate {
     
     
     override func update(_ currentTime: TimeInterval) {
+        
+        frameCount = frameCount+1
+        if(frameCount%60 == 0){
+            time = time - 1
+            self.timeLabel.text = "Time: \(self.time)"
+            
+            
+            
+//            MARK: Sending time to watch
+            
+            print("Sending message to watch")
+                               // ------ SEND MESSAGE TO WATCH CODE GOES HERE
+
+                            if(WCSession.default.isReachable == true){
+                    //            Here is the message you want to send to the watch
+                                let message = ["name":"\(time)"]
+                                WCSession.default.sendMessage(message, replyHandler: nil)
+            //                    messageCounter = messageCounter+1
+//                              sendMessageOutputLabel.text = "Message Sent"
+                                }
+                                else {
+            //                        messageCounter = messageCounter + 1
+//                                    sendMessageOutputLabel.text = "Cannot reach watch! "
+                                }
+        }
+        
     }
     
     
