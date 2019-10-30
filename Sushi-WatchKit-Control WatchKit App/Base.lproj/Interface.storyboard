@@ -12,19 +12,27 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Sushi_WatchKit_Control_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <button width="136" alignment="left" title="Left" id="ocn-WV-QwU">
+                        <button width="136" height="22" alignment="left" title="Left" id="ocn-WV-QwU">
                             <connections>
                                 <action selector="leftButtonPressed" destination="AgC-eL-Hgc" id="uft-ay-f2X"/>
                             </connections>
                         </button>
-                        <button width="136" height="38" alignment="right" title="Right" id="axi-Bd-S0v">
+                        <button width="136" height="23" alignment="right" title="Right" id="axi-Bd-S0v">
                             <connections>
                                 <action selector="rightButtonPressed" destination="AgC-eL-Hgc" id="7dB-10-0bg"/>
                             </connections>
                         </button>
-                        <label width="136" height="37" alignment="left" text="Warning" id="OCh-F7-mcl"/>
+                        <label width="136" height="18" alignment="left" text="Warning" id="OCh-F7-mcl"/>
+                        <label width="121" alignment="left" text="power" id="fGs-aM-PNh"/>
+                        <button width="1" height="22" alignment="left" id="zva-yi-hyp">
+                            <connections>
+                                <action selector="PowerUpButtonPressed" destination="AgC-eL-Hgc" id="bh5-I5-YO0"/>
+                            </connections>
+                        </button>
                     </items>
                     <connections>
+                        <outlet property="powerButton" destination="zva-yi-hyp" id="pYI-I8-71Z"/>
+                        <outlet property="powerUp" destination="fGs-aM-PNh" id="fvy-Ii-BTZ"/>
                         <outlet property="timeLabel" destination="OCh-F7-mcl" id="EjT-pE-fmx"/>
                     </connections>
                 </controller>

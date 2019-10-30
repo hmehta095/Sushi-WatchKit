@@ -17,6 +17,8 @@ func session(_ session: WCSession, activationDidCompleteWith activationState: WC
 }
 // Function to receive DICTIONARY from the watch
 
+    @IBOutlet weak var powerButton: WKInterfaceButton!
+    @IBOutlet weak var powerUp: WKInterfaceLabel!
     @IBOutlet weak var timeLabel: WKInterfaceLabel!
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         // Output message to terminal
@@ -25,13 +27,35 @@ func session(_ session: WCSession, activationDidCompleteWith activationState: WC
         // Get the "name" key out of the dictionary
         // and show it in the label
         let name = message["name"] as! String
-//        print(name)
-
+        let power = message["power"] as! String
+        print(power)
+        powerUp.setText(power)
         timeLabel.setText(name)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.powerUp.setText("")
+        }
+        
+        if(power == "Click to Power-UP"){
+           self.powerButton.setHidden(false)
+           self.powerButton.setTitle("POWER UP")
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                self.powerButton.setHidden(true)
+            }
+       }
 
     }
 
-
+    @IBAction func PowerUpButtonPressed() {
+        print("Power Up Pressed")
+        if(WCSession.default.isReachable == true){
+        //            Here is the message you want to send to the watch
+            let message = ["name":"","powerTime":"powerAdd"] as [String : Any]
+                   WCSession.default.sendMessage(message, replyHandler: nil)
+                   }
+    }
+    
 
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
@@ -43,7 +67,7 @@ func session(_ session: WCSession, activationDidCompleteWith activationState: WC
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         print("---WATCH APP LOADED")
-        
+        self.powerButton.setHidden(true)
         if (WCSession.isSupported() == true) {
 //            msgFromPhoneLabel.setText("WC is supported!")
             
@@ -64,35 +88,28 @@ func session(_ session: WCSession, activationDidCompleteWith activationState: WC
     @IBAction func leftButtonPressed() {
         
         print("Sending message to phone")
-                                  // ------ SEND MESSAGE TO WATCH CODE GOES HERE
+          // ------ SEND MESSAGE TO WATCH CODE GOES HERE
 
-                               if(WCSession.default.isReachable == true){
-                       //            Here is the message you want to send to the watch
-                                   let message = ["name":"left"]
-                                   WCSession.default.sendMessage(message, replyHandler: nil)
-               //                    messageCounter = messageCounter+1
-//                                 sendMessageOutputLabel.setText("Message Sent")
-                                   }
-                                   else {
-               //                        messageCounter = messageCounter + 1
-//                                       sendMessageOutputLabel.setText("Cannot reach watch! ")
-                                   }
+       if(WCSession.default.isReachable == true){
+//            Here is the message you want to send to the watch
+           let message = ["name":"left","time":""] as [String : Any]
+           WCSession.default.sendMessage(message, replyHandler: nil)
+           }
+           else {
+           }
     }
     
     @IBAction func rightButtonPressed() {
         print("Sending message to phone")
-                                  // ------ SEND MESSAGE TO WATCH CODE GOES HERE
+          // ------ SEND MESSAGE TO WATCH CODE GOES HERE
 
-                               if(WCSession.default.isReachable == true){
-                       //            Here is the message you want to send to the watch
-                                   let message = ["name":"right"]
-                                   WCSession.default.sendMessage(message, replyHandler: nil)
-               //                    messageCounter = messageCounter+1
-//                                 sendMessageOutputLabel.setText("Message Sent")
-                                   }
-                                   else {
-               //                        messageCounter = messageCounter + 1
-//                                       sendMessageOutputLabel.setText("Cannot reach watch! ")
-                                   }
+       if(WCSession.default.isReachable == true){
+//            Here is the message you want to send to the watch
+           let message = ["name":"right","time":""] as [String : Any]
+           WCSession.default.sendMessage(message, replyHandler: nil)
+           }
+           else {
+
+           }
     }
 }
