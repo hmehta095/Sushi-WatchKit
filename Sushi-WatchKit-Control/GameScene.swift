@@ -11,7 +11,20 @@ import GameplayKit
 import WatchConnectivity
 
 class GameScene: SKScene, WCSessionDelegate {
-    
+    let cat = SKSpriteNode(imageNamed: "character1")
+       let sushiBase = SKSpriteNode(imageNamed:"roll")
+
+       // Make a tower
+       var sushiTower:[SushiPiece] = []
+       let SUSHI_PIECE_GAP:CGFloat = 80
+       var catPosition = "left"
+       
+       // Show life and score labels
+       let lifeLabel = SKLabelNode(text:"Lives: ")
+       let scoreLabel = SKLabelNode(text:"Score: ")
+       
+       var lives = 5
+       var score = 0
        
         func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
             
@@ -29,30 +42,42 @@ class GameScene: SKScene, WCSessionDelegate {
         func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
             // Output message to terminal
             print("WATCH: I received a message: \(message)")
-            
-            // Get the "name" key out of the dictionary
-            // and show it in the label
+
             let name = message["name"] as! String
             print("\(name)")
-    //        let color = message["color"] as! String
-    //        msgFromWatch.text = name
-    //        msgFromWatcholor.text = color
+            moveCat(name: name)
+
         }
     
-    let cat = SKSpriteNode(imageNamed: "character1")
-    let sushiBase = SKSpriteNode(imageNamed:"roll")
-
-    // Make a tower
-    var sushiTower:[SushiPiece] = []
-    let SUSHI_PIECE_GAP:CGFloat = 80
-    var catPosition = "left"
-    
-    // Show life and score labels
-    let lifeLabel = SKLabelNode(text:"Lives: ")
-    let scoreLabel = SKLabelNode(text:"Score: ")
-    
-    var lives = 5
-    var score = 0
+    func moveCat(name:String){
+        if(name == "left"){
+            print("TAP LEFT")
+            // 2. person clicked left, so move cat left
+            cat.position = CGPoint(x:self.size.width*0.25, y:100)
+            
+            // change the cat's direction
+            let facingRight = SKAction.scaleX(to: 1, duration: 0)
+            self.cat.run(facingRight)
+            
+            // save cat's position
+            self.catPosition = "left"
+            animation(catPosition: catPosition)
+        }
+        else if(name == "right"){
+            print("TAP RIGHT")
+                       // 2. person clicked right, so move cat right
+                       cat.position = CGPoint(x:self.size.width*0.85, y:100)
+                       
+                       // change the cat's direction
+                       let facingLeft = SKAction.scaleX(to: -1, duration: 0)
+                       self.cat.run(facingLeft)
+                       
+                       // save cat's position
+                       self.catPosition = "right"
+            animation(catPosition: catPosition)
+        }
+    }
+   
     
     
     func spawnSushi() {
@@ -270,6 +295,91 @@ class GameScene: SKScene, WCSessionDelegate {
             print("Sushi tower is empty!")
         }
         
+    }
+    
+    
+    func animation(catPosition:String){
+        
+        // ------------------------------------
+        // MARK: UPDATE THE SUSHI TOWER GRAPHICS
+        //  When person taps mouse,
+        //  remove a piece from the tower & redraw the tower
+        // -------------------------------------
+        let pieceToRemove = self.sushiTower.first
+        if (pieceToRemove != nil) {
+            // SUSHI: hide it from the screen & remove from game logic
+            pieceToRemove!.removeFromParent()
+            self.sushiTower.remove(at: 0)
+            
+            // SUSHI: loop through the remaining pieces and redraw the Tower
+            for piece in sushiTower {
+                piece.position.y = piece.position.y - SUSHI_PIECE_GAP
+            }
+            
+            // To make the tower inifnite, then ADD a new piece
+            self.spawnSushi()
+        }
+        
+        
+        
+        
+        // ------------------------------------
+               // MARK: ANIMATION OF PUNCHING CAT
+               // -------------------------------------
+               
+               // show animation of cat punching tower
+               let image1 = SKTexture(imageNamed: "character1")
+               let image2 = SKTexture(imageNamed: "character2")
+               let image3 = SKTexture(imageNamed: "character3")
+               
+               let punchTextures = [image1, image2, image3, image1]
+               
+               let punchAnimation = SKAction.animate(
+                   with: punchTextures,
+                   timePerFrame: 0.1)
+               
+               self.cat.run(punchAnimation)
+               
+               
+               // ------------------------------------
+               // MARK: WIN AND LOSE CONDITIONS
+               // -------------------------------------
+               
+               if (self.sushiTower.count > 0) {
+                   // 1. if CAT and STICK are on same side - OKAY, keep going
+                   // 2. if CAT and STICK are on opposite sides -- YOU LOSE
+                   let firstSushi:SushiPiece = self.sushiTower[0]
+                   let chopstickPosition = firstSushi.stickPosition
+                   
+                   if (catPosition == chopstickPosition) {
+                       // cat = left && chopstick == left
+                       // cat == right && chopstick == right
+                       print("Cat Position = \(catPosition)")
+                       print("Stick Position = \(chopstickPosition)")
+                       print("Conclusion = LOSE")
+                       print("------")
+                       
+                       self.lives = self.lives - 1
+                       self.lifeLabel.text = "Lives: \(self.lives)"
+                   }
+                   else if (catPosition != chopstickPosition) {
+                       // cat == left && chopstick = right
+                       // cat == right && chopstick = left
+                       print("Cat Position = \(catPosition)")
+                       print("Stick Position = \(chopstickPosition)")
+                       print("Conclusion = WIN")
+                       print("------")
+                       
+                       self.score = self.score + 10
+                       self.scoreLabel.text = "Score: \(self.score)"
+                   }
+               }
+               
+               else {
+                   print("Sushi tower is empty!")
+               }
+               
+           
     }
  
 }
