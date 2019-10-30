@@ -56,7 +56,14 @@ func session(_ session: WCSession, activationDidCompleteWith activationState: WC
                    }
     }
     
-
+    @IBAction func pauseButtonPressed() {
+        if(WCSession.default.isReachable == true){
+        //            Here is the message you want to send to the watch
+                   let message = ["name":"","powerTime":"pause"] as [String : Any]
+                   WCSession.default.sendMessage(message, replyHandler: nil)
+                   }
+    }
+    
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         

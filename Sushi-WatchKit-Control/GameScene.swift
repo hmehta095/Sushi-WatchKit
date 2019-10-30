@@ -29,6 +29,7 @@ class GameScene: SKScene, WCSessionDelegate {
         var frameCount :Int = 0
         var time:Int = 25
         var num:Int = 2
+    var flag:Bool = false
     
     
        
@@ -60,6 +61,9 @@ class GameScene: SKScene, WCSessionDelegate {
             
             if(powerUpTime == "powerAdd"){
                 time = time + 10
+            }
+            if(powerUpTime == "pause"){
+                flag = true
             }
 
         }
@@ -192,7 +196,7 @@ class GameScene: SKScene, WCSessionDelegate {
     override func update(_ currentTime: TimeInterval) {
         
         frameCount = frameCount+1
-        if(time > 0){
+        if(time > 0 && flag == false){
         if(frameCount%60 == 0){
             
             time = time - 1

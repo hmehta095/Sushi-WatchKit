@@ -29,6 +29,11 @@
                                 <action selector="PowerUpButtonPressed" destination="AgC-eL-Hgc" id="bh5-I5-YO0"/>
                             </connections>
                         </button>
+                        <button width="1" height="30" alignment="left" title="Pause" id="gev-p4-Px9">
+                            <connections>
+                                <action selector="pauseButtonPressed" destination="AgC-eL-Hgc" id="Dds-KQ-HSP"/>
+                            </connections>
+                        </button>
                     </items>
                     <connections>
                         <outlet property="powerButton" destination="zva-yi-hyp" id="pYI-I8-71Z"/>
@@ -37,7 +42,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="129" y="120"/>
+            <point key="canvasLocation" x="129" y="116"/>
         </scene>
     </scenes>
 </document>
