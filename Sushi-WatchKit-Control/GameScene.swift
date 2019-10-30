@@ -8,8 +8,36 @@
 
 import SpriteKit
 import GameplayKit
+import WatchConnectivity
 
-class GameScene: SKScene {
+class GameScene: SKScene, WCSessionDelegate {
+    
+       
+        func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+            
+        }
+        
+        func sessionDidBecomeInactive(_ session: WCSession) {
+            
+        }
+        
+        func sessionDidDeactivate(_ session: WCSession) {
+            
+        }
+        
+        
+        func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+            // Output message to terminal
+            print("WATCH: I received a message: \(message)")
+            
+            // Get the "name" key out of the dictionary
+            // and show it in the label
+            let name = message["name"] as! String
+            print("\(name)")
+    //        let color = message["color"] as! String
+    //        msgFromWatch.text = name
+    //        msgFromWatcholor.text = color
+        }
     
     let cat = SKSpriteNode(imageNamed: "character1")
     let sushiBase = SKSpriteNode(imageNamed:"roll")
@@ -59,6 +87,22 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+                          if(WCSession.isSupported() == true){
+        //                      checkConnection.text = "WC is supported"
+                              
+                  //            create a communication session with the watch?
+                                  let session = WCSession.default
+                                       session.delegate = self
+                                       session.activate()
+                                   }
+                                   else {
+        //                               checkConnection.text = "WC NOT supported!"
+                                   }
+
+        
+        
+        
+        
         // add background
         let background = SKSpriteNode(imageNamed: "background")
         background.size = self.size
@@ -78,14 +122,14 @@ class GameScene: SKScene {
         self.buildTower()
         
         // Game labels
-        self.scoreLabel.position.x = 70
+        self.scoreLabel.position.x = 60
         self.scoreLabel.position.y = size.height - 50
         self.scoreLabel.fontName = "Avenir"
         self.scoreLabel.fontSize = 30
         addChild(scoreLabel)
         
         // Life label
-        self.lifeLabel.position.x = 70
+        self.lifeLabel.position.x = 60
         self.lifeLabel.position.y = size.height - 80
         self.lifeLabel.fontName = "Avenir"
         self.lifeLabel.fontSize = 30
