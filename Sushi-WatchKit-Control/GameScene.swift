@@ -27,7 +27,7 @@ class GameScene: SKScene, WCSessionDelegate {
        var lives = 5
        var score = 0
     var frameCount :Int = 0
-    var time:Int = 90
+    var time:Int = 25
     
     
        
@@ -189,21 +189,40 @@ class GameScene: SKScene, WCSessionDelegate {
             
             
 //            MARK: Sending time to watch
-            
-            print("Sending message to watch")
-                               // ------ SEND MESSAGE TO WATCH CODE GOES HERE
+            if(time == 15 || time == 10  || time == 5 ){
+                print("Sending message to watch")
+                                               // ------ SEND MESSAGE TO WATCH CODE GOES HERE
 
-                            if(WCSession.default.isReachable == true){
-                    //            Here is the message you want to send to the watch
-                                let message = ["name":"\(time)"]
-                                WCSession.default.sendMessage(message, replyHandler: nil)
-            //                    messageCounter = messageCounter+1
-//                              sendMessageOutputLabel.text = "Message Sent"
-                                }
-                                else {
-            //                        messageCounter = messageCounter + 1
-//                                    sendMessageOutputLabel.text = "Cannot reach watch! "
-                                }
+                                            if(WCSession.default.isReachable == true){
+                                    //            Here is the message you want to send to the watch
+                                                let message = ["name":"\(time)"]
+                                                WCSession.default.sendMessage(message, replyHandler: nil)
+                            //                    messageCounter = messageCounter+1
+                //                              sendMessageOutputLabel.text = "Message Sent"
+                                                }
+                                                else {
+                            //                        messageCounter = messageCounter + 1
+                //                                    sendMessageOutputLabel.text = "Cannot reach watch! "
+                                                }
+
+            }
+            
+            if(time == 0){
+                print("Sending message to watch")
+                                                         // ------ SEND MESSAGE TO WATCH CODE GOES HERE
+
+                                                      if(WCSession.default.isReachable == true){
+                                              //            Here is the message you want to send to the watch
+                                                          let message = ["name":"Game Over"]
+                                                          WCSession.default.sendMessage(message, replyHandler: nil)
+                                      //                    messageCounter = messageCounter+1
+                          //                              sendMessageOutputLabel.text = "Message Sent"
+                                                          }
+                                                          else {
+                                      //                        messageCounter = messageCounter + 1
+                          //                                    sendMessageOutputLabel.text = "Cannot reach watch! "
+                                                          }
+            }
         }
         
     }

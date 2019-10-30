@@ -25,7 +25,7 @@ func session(_ session: WCSession, activationDidCompleteWith activationState: WC
         // Get the "name" key out of the dictionary
         // and show it in the label
         let name = message["name"] as! String
-        print(name)
+//        print(name)
 
         timeLabel.setText(name)
 
