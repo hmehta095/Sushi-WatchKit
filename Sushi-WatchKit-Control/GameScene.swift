@@ -54,7 +54,7 @@ class GameScene: SKScene, WCSessionDelegate {
             let powerUpTime = message["powerTime"] as? String
             print("\(name)")
             
-            if(time > 0 && lives > 0){
+            if(time > 0 && lives > 0 && flag == false){
              moveCat(name: name)
             }
             
