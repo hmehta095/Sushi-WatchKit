@@ -249,6 +249,11 @@ class GameScene: SKScene, WCSessionDelegate {
                     else {
 
                     }
+                // test comment - delete me later.
+                // test
+                // test
+                // test
+                
 
             }
             
