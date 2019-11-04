@@ -24,7 +24,7 @@ class GameScene: SKScene, WCSessionDelegate {
        let scoreLabel = SKLabelNode(text:"Score: ")
         let timeLabel = SKLabelNode(text:"Time: ")
        let hScoreLabel = SKLabelNode(text:"HS: ")
-       
+    let HSLabel = SKLabelNode(text: "HS:")
        var lives = 5
        var score = 0
         
@@ -183,6 +183,12 @@ class GameScene: SKScene, WCSessionDelegate {
         self.scoreLabel.fontSize = 30
         addChild(hScoreLabel)
         
+        self.HSLabel.position.x = size.width - 110
+        self.HSLabel.position.y = size.height - 50
+        self.HSLabel.fontName = "Avenir"
+        self.HSLabel.fontSize = 30
+        addChild(HSLabel)
+        
         // Life label
         self.lifeLabel.position.x = 60
         self.lifeLabel.position.y = size.height - 80
@@ -249,10 +255,7 @@ class GameScene: SKScene, WCSessionDelegate {
                     else {
 
                     }
-                // test comment - delete me later.
-                // test
-                // test
-                // test
+    
                 
 
             }
