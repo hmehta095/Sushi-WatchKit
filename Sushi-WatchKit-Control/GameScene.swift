@@ -23,9 +23,13 @@ class GameScene: SKScene, WCSessionDelegate {
        let lifeLabel = SKLabelNode(text:"Lives: ")
        let scoreLabel = SKLabelNode(text:"Score: ")
         let timeLabel = SKLabelNode(text:"Time: ")
+       let hScoreLabel = SKLabelNode(text:"HS: ")
        
        var lives = 5
        var score = 0
+        
+        
+    var hscore = 0
         var frameCount :Int = 0
         var time:Int = 25
         var num:Int = 2
@@ -172,6 +176,13 @@ class GameScene: SKScene, WCSessionDelegate {
         self.scoreLabel.fontSize = 30
         addChild(scoreLabel)
         
+        //HSCORE LABEL
+        self.hScoreLabel.position.x = size.width - 50
+        self.hScoreLabel.position.y = size.height - 50
+        self.scoreLabel.fontName = "Avenir"
+        self.scoreLabel.fontSize = 30
+        addChild(hScoreLabel)
+        
         // Life label
         self.lifeLabel.position.x = 60
         self.lifeLabel.position.y = size.height - 80
@@ -184,6 +195,10 @@ class GameScene: SKScene, WCSessionDelegate {
         self.timeLabel.fontName = "Avenir"
         self.timeLabel.fontSize = 30
         addChild(timeLabel)
+        
+        
+        hScoreLabel.text = String(UserDefaults.standard.integer(forKey: "hscore"))
+        hscore = Int(UserDefaults.standard.integer(forKey: "hscore"))
     }
     
     func buildTower() {
@@ -240,7 +255,10 @@ class GameScene: SKScene, WCSessionDelegate {
             if(time == 0){
                 print("Sending message to watch")
                  // ------ SEND MESSAGE TO WATCH CODE GOES HERE
-
+                if score > hscore {
+                     UserDefaults.standard.set(score, forKey: "hscore")
+                    hScoreLabel.text = "\(hscore)"
+                }
               if(WCSession.default.isReachable == true){
       //            Here is the message you want to send to the watch
                   let message = ["power": "","name":"Game Over"]
